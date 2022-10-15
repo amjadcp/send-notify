@@ -1,8 +1,7 @@
-
 import axios from 'axios'
-import { io } from "socket.io-client";
+import connect from './connect'
 
-module.exports.sendNotify=async(obj)=>{
+const sendNotify=async(obj)=>{
     let {userId, grp, message, userType} = obj
     if(typeof(userId)==='string' && userId) userId = [userId]
     if(typeof(grp)==='string' && grp) grp = [grp]
@@ -16,15 +15,4 @@ module.exports.sendNotify=async(obj)=>{
       });
 }
 
-module.exports.connect=(userId)=>{
-  const socket = io('http://127.0.0.1:5000', { query: `userId=${userId}` })
-  socket.on("connect", ()=>{
-      console.log(socket.id);
-      localStorage.setItem('socketId', socket.id)
-  })
-  socket.on("notify", (message)=>{
-      console.log('------------->', message);
-      localStorage.setItem('message', message)
-  
-  })
-}
+export default sendNotify
